@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: task-service
+  datasource:
+    url: jdbc:postgresql://postgres-task-db:5432/task_db
+    username: postgres
+    password: password123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 9007
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+# THÊM DÒNG NÀY
+jwt:
+  secret: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC
+
+vapid:
+  public:
+    key: BFG7k2HpM5dHTwC2Noi-EMKSR1MUpUdQa2SrqufF1CFVoP6NlGw-V3Zgf6A90yCYBsHwSFMukGuO9tVHZWSWWhI
+  private:
+    key: sr6h7NtAUmladak2iqc38u8ylRyI8d38Vb6d0LiJfIQ

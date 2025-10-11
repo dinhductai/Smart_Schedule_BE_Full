@@ -1,0 +1,24 @@
+# application.yml của product-service
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:postgresql://postgres-product-db:5432/product_db
+    username: postgres
+    password: password123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 9003 # Chọn một cổng mới chưa được sử dụng
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+  instance:
+    prefer-ip-address: true

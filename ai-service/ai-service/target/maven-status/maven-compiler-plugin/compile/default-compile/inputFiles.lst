@@ -1,0 +1,17 @@
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\AiServiceApplication.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\client\TaskClient.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\config\FeignConfig.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\config\SecurityConfig.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\controller\ConversationController.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\dto\response\ChatAIConversationResponse.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\dto\response\ChatAIResponse.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\dto\response\TaskResponse.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\entity\ConversationMemory.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\enumeration\PriorityLevel.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\enumeration\TaskStatus.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\repository\ConversationMemoryRepository.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\service\ChatAIService.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\service\impl\ChatAIServiceImpl.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\service\impl\ChatMemoryServiceImpl.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\util\NullUtil.java
+D:\Smart_Schedule\ai-service\ai-service\src\main\java\com\microsv\ai_service\util\PromptUtil.java

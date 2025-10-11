@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:postgresql://postgres-user-db:5432/user_db
+    username: postgres
+    password: password123
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+  port: 9001
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC

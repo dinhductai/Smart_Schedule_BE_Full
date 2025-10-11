@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service-route
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+        - id: order-service-route
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+        - id: product-service-route
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/**
+        - id: auth-service-route
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+
+        # --- PHẦN CẬP NHẬT CHO SERVICE MỚI ---
+        - id: task-service-route
+          uri: lb://task-service
+          predicates:
+            - Path=/api/tasks/**
+
+        - id: ai-service-route
+          uri: lb://ai-service
+          predicates:
+            - Path=/api/ai/**
+        # ------------------------------------
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC

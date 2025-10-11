@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: ai-service
+  datasource:
+    url: jdbc:postgresql://postgres-ai-db:5432/ai_db
+    username: postgres
+    password: password123
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-3.5-turbo
+
+server:
+  port: 9006
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC
+

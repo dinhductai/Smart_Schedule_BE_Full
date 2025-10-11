@@ -1,0 +1,211 @@
+services:
+  discovery-server:
+    build: ./discovery-server/discovery-server
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8761/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  postgres-user-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d user_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    build: ./user-service/user-service
+    ports:
+      - "9001:9001"
+    environment:
+      JWT_SECRET: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC
+    depends_on:
+      postgres-user-db:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+
+  postgres-order-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5433:5432"
+    volumes:
+      - order-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d order_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  order-service:
+    build: ./order-service/order-service
+    ports:
+      - "9002:9002"
+    depends_on:
+      postgres-order-db:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+      discovery-server:
+        condition: service_healthy
+
+  postgres-product-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5434:5432"
+    volumes:
+      - product-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d product_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  product-service:
+    build: ./product-service/product-service
+    ports:
+      - "9003:9003"
+    depends_on:
+      postgres-product-db:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+
+  postgres-auth-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5436:5432"
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d auth_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build: ./auth-service/auth-service
+    ports:
+      - "9004:9004"
+    environment:
+      JWT_SECRET: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC
+    depends_on:
+      postgres-auth-db:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+
+  postgres-task-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: task_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5435:5432"
+    volumes:
+      - task-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d task_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  task-service:
+    build: ./task-service/task-service
+    ports:
+      - "9007:9007"
+    environment:
+      JWT_SECRET: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC
+    depends_on:
+      postgres-task-db:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+
+  # THÊM SERVICE POSTGRES-AI-DB
+  postgres-ai-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ai_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5437:5432"
+    volumes:
+      - ai-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ai_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ai-service:
+    build: ./ai-service/ai-service
+    ports:
+      - "9006:9006"
+    environment:
+      JWT_SECRET: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC
+      SPRING_AI_OPENAI_API_KEY: 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
+    depends_on:
+      postgres-ai-db:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+
+  api-gateway:
+    build: ./api-gateway/api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      JWT_SECRET: A9mK2pX8vS4rW7tF1yD3bJ6nL0zQ5hG2eR9cU4xT8sV1wM7oP3lY6jN5iC
+    depends_on:
+      order-service:
+        condition: service_started
+      user-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+      auth-service:
+        condition: service_started
+      task-service:
+        condition: service_started
+      ai-service:
+        condition: service_started
+      discovery-server:
+        condition: service_healthy
+
+volumes:
+  user-db-data:
+  order-db-data:
+  product-db-data:
+  task-db-data:
+  auth-db-data:
+  ai-db-data:
